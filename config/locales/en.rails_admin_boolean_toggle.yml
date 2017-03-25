@@ -1,0 +1,5 @@
+en:
+  admin:
+    actions:
+      toggle:
+        title: "Toggle"
