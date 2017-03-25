@@ -1,7 +1,7 @@
 module RailsAdmin
   module Config
     module Actions
-      class State < Base
+      class BooleanToggle < Base
         RailsAdmin::Config::Actions.register(self)
 
         # Is the action acting on the root level (Example: /admin/contact)
@@ -27,12 +27,12 @@ module RailsAdmin
             if params['id'].present?
               begin
                 current_value = @object.send(params[:field])
-                if @object = update_attribute(params[:field], !current_value)
+                if @object.update_attribute(params[:field], !current_value)
                   flash[:success] = I18n.t('admin.boolean_toggle.toggled', field: params[:field])
                 else
                   flash[:error] = obj.errors.full_messages.join(', ')
                 end
-              rescue Exception => e
+              rescue StandardError => e
                 Rails.logger.error e
                 flash[:error] = I18n.t('admin.boolean_toggle.error', err: e.to_s)
               end
